@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.0.0 
+  @version v1.0.1 
 -->
 
 # gagbot.js
@@ -89,7 +89,7 @@ We use MAJOR.MINOR.PATCH semantic versioning in two different flavours. One for 
       - `M` = Major: Incremented for big changes, like new features, rewrites, etc.
       - `m` = Minor: Incremented for bug fixes or introduction of smaller features.
  
- We are currently on `r2020.0.0`
+ We are currently on `r20.0.0`
 
 ## Contributors
 
