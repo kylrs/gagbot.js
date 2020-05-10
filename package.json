@@ -9,6 +9,7 @@
   "dependencies": {
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
     "nedb": "^1.8.0",
     "utf-8-validate": "^5.0.2"
   }

@@ -1,24 +1,36 @@
 /**
  * Bot entry point
  *
- *
- * @license ISC
  * @author Kay <kylrs00@gmail.com>
- *
+ * @license ISC - For more information, see the LICENSE.md file packaged with this file.
+ * @since r20.0.0
+ * @version v1.0.0
  */
 
 'use strict';
 
 const path = require('path');
 const DataStore = require('nedb');
-const config = require('../config.json');
-const { Client, MessageEmbed } = require('discord.js');
-const CommandLoader = require('./command/CommandLoader.js');
-const CommandParser = require('./command/CommandParser.js');
+const { Client } = require('discord.js');
+const ModuleLoader = require('./ModuleLoader.js');
 
+const defaultConfig = require('../config.default.json');
+let config;
+try {
+    config = Object.assign(defaultConfig, require('../config.json'));
+}
+catch {
+    config = defaultConfig;
+}
+require('dotenv').config();
+config.token = process.env.DISCORD_TOKEN;
+
+// Instantiate the bot
+const client = new Client();
+client.config = config;
 
 // Load NeDB database files
-const db = {
+client.db = {
     guilds: new DataStore({
         filename: path.join(config.datastore, 'guilds.db'),
         autoload: true,
@@ -29,59 +41,14 @@ const db = {
     }),
 };
 
-// Instantiate the bot
-const client = new Client();
-
-// Load commands from filesystem
-new CommandLoader(client)
-    .usingPath('src/command/commands')
-    .loadCommands();
-
-
-client.once('ready', () => {
-    console.log(`Logged in as ${client.user.tag} to guilds:`);
-    for (let guild of client.guilds.cache.values()) {
-        console.log(` - ${guild.name}`);
+// Load modules from filesystem
+new ModuleLoader(client).usingPath('src/modules').loadModules(function(err) {
+    if (err) {
+        console.error(err);
+        return false;
     }
+
+    console.log('All modules loaded successfully.');
+    // Connect to Discord
+    client.login(config.token);
 });
-
-
-/**
- * Handle incoming commands
- */
-client.on('message', (msg) => {
-    if (msg.author.bot) return;
-
-    try {
-        // Attempt to parse the message as a command. Ignore it if nothing was parsed
-        const parsed = new CommandParser().parseMessage(client, msg);
-        if (parsed === null) return;
-        if (parsed instanceof Error) throw parsed;
-        const {command, args} = parsed;
-        command.execute(msg, args, db);
-    }
-    catch (err) {
-        const message = err instanceof Error ? err.message : err.toString();
-
-        // Log error to database
-        db.logs.insert({
-            message: message,
-            cause: 'command',
-            detail: `${msg.author.tag}: ${msg.content}`,
-            guild: msg.guild.id,
-            timestamp: new Date().getTime(),
-        });
-
-        // Send error in chat
-        const embed = new MessageEmbed()
-            .setTitle(config.errorMessage)
-            .setColor(0xff0000)
-            .setDescription(message);
-        const dedEmoji = msg.guild.emojis.cache.find(emoji => emoji.name === 'gagded');
-        if (dedEmoji) embed.setThumbnail(`https://cdn.discordapp.com/emojis/${dedEmoji.id}.png`);
-        msg.channel.send(embed);
-    }
-});
-
-// Connect to Discord
-client.login(config.token);

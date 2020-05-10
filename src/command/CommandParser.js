@@ -1,11 +1,14 @@
-const ArgumentList = require('./ArgumentList.js');
-
 /**
  * Handles the parsing of commands and their arguments
  *
  * @author Kay <kylrs00@gmail.com>
- * @type {CommandParser}
+ * @license ISC - For more information, see the LICENSE.md file packaged with this file.
+ * @since r20.0.0
+ * @version v1.0.0
  */
+
+const ArgumentList = require('./ArgumentList.js');
+
 module.exports = class CommandParser {
 
     static #DEFAULT_OPTIONS = {
@@ -13,6 +16,14 @@ module.exports = class CommandParser {
         allowLeadingWhitespace : true,
     };
 
+    /**
+     * CommandParser constructor
+     *
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.0.0
+     *
+     * @param options
+     */
     constructor(options) {
         this.options = Object.assign(CommandParser.#DEFAULT_OPTIONS, options || {});
     }
@@ -20,6 +31,9 @@ module.exports = class CommandParser {
     /**
      * Return the longest prefix that matches the given message.
      * If no prefix matches, return null.
+     *
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.0.0
      *
      * @param message
      * @returns {null|string}
@@ -41,6 +55,9 @@ module.exports = class CommandParser {
 
     /**
      * Take a chat message and
+     *
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.0.0
      *
      * @param client
      * @param message
@@ -79,6 +96,9 @@ module.exports = class CommandParser {
     /**
      * Parse an ArgumentList from a string using the args pattern from the command definition
      *
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.0.0
+     *
      * @param tail
      * @param command
      * @returns {Error|ArgumentList}
@@ -93,8 +113,7 @@ module.exports = class CommandParser {
             let names;
             if (command.args instanceof Object) {
                 names = Object.keys(command.args);
-            }
-            else if (Array.isArray(command.args)) {
+            } else if (Array.isArray(command.args)) {
                 names = command.args.keys();
             }
 
@@ -125,8 +144,7 @@ module.exports = class CommandParser {
                             // Specified base format
                             let [int, base] = match[0].split('_');
                             num = parseInt(int, parseInt(base, 10));
-                        }
-                        else {
+                        } else {
                             // Plain number format
                             num = Number(match[0]);
                         }
@@ -154,8 +172,7 @@ module.exports = class CommandParser {
                         tail = tail.substring(match[0].length);
                 }
             }
-        }
-        else {
+        } else {
             // If no args are required, split by whitespace and assume all tokens are of type String
             tail.split(/\w+/)
                 .forEach((arg) => args.add(arg, String));
