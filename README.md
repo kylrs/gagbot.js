@@ -72,24 +72,9 @@ Please make sure you take a look at our [Code of Conduct](./CONTRIBUTING.md) bef
   
 ## Versioning
 
-We use MAJOR.MINOR.PATCH semantic versioning in two different flavours. One for versioning code, and the other for releases.
+We use MAJOR.MINOR.PATCH semantic versioning in two different flavours. One for versioning code, and the other for releases. For more information, [visit the wiki]().
 
-  - Versioning Code
-    - Where possible, all code must have labels indicating the iteration of the file. 
-    - In JS, this is done in JSDoc style docblocks.
-    - Code versions follow the format `vM.m.p`
-      - `M` = Major: Incremented for any radical changes, such as total rewrites.
-      - `m` = Minor: Incremented for small changes, such as a few new/modified function(s) in a class.
-      - `p` = Patch: Incremented for smaller changes, e.g. bug fixes, typo corrections. Patches should not change *intended* functionality.
-  
-  - Versioning Releases
-    - When the `master` branch contains a robust build, a release will be made.
-    - Release numbers follow the format `rY.M.m`
-      - `Y` = Year: A 2-digit integer indicating what year the release was made, where `00` is the year 2000.
-      - `M` = Major: Incremented for big changes, like new features, rewrites, etc.
-      - `m` = Minor: Incremented for bug fixes or introduction of smaller features.
- 
- We are currently on `r20.0.0`
+We are currently on `r20.0.0`
 
 ## Contributors
 
