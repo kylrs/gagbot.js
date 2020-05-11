@@ -13,7 +13,7 @@
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
  - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
  
- **Got a good idea?** Open an issue and start the discussion!
+ **Got a good idea?** Open an issue and start the discussion! Alternatively, you could contribute to one of these features!
 
 ## Getting Started
 ### Prerequisites
