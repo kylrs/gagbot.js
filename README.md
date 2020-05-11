@@ -1,10 +1,19 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.0.1 
+  @version v1.0.2 
 -->
 
 # gagbot.js
 **GaGBot is a utility bot for discord servers, written in JavaScript for Node.js**
+
+## Features
+ - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze!
+### In The Pipeline
+ - **Permissions** - Allow server administrators to fine-tune access to GaGBot features at channel, role and user levels.
+ - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
+ - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
+ 
+ **Got a good idea?** Open an issue and start the discussion!
 
 ## Getting Started
 ### Prerequisites
