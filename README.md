@@ -13,7 +13,9 @@
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
  - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
  
- **Got a good idea?** [Open an issue](https://github.com/kylrs/gagbot.js/issues) and start the discussion! Alternatively, you could contribute to one of these features! Look for open [issues that are awaiting your action](https://github.com/kylrs/gagbot.js/issues?q=is%3Aopen+is%3Aissue+label%3As%3Awaiting).
+ **Got a good idea?** [Open an issue](https://github.com/kylrs/gagbot.js/issues) and start the discussion! 
+ 
+ Alternatively, you could contribute to one of these features! Look for open [issues that are awaiting your action](https://github.com/kylrs/gagbot.js/issues?q=is%3Aopen+is%3Aissue+label%3As%3Awaiting).
 
 ## Getting Started
 ### Prerequisites
