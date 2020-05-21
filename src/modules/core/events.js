@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.1.0
+ * @version v1.2.0
  */
 
 const { MessageEmbed } = require('discord.js');
@@ -20,7 +20,7 @@ module.exports = {
      *
      * @param client
      */
-    on_ready(client) {
+    async on_ready(client) {
         console.log(`Logged in as ${client.user.tag} to guilds:`);
         for (let guild of client.guilds.cache.values()) {
             console.log(`  > ${guild.name}`);
@@ -36,10 +36,10 @@ module.exports = {
      * @param client
      * @param message
      */
-    on_message(client, message) {
+    async on_message(client, message) {
         if (message.author.bot) return;
 
-        const res = Command.dispatchCommand(client, message, {
+        const res = await Command.dispatchCommand(client, message, {
             prefixes: client.config.prefixes,
             allowLeadingWhitespace: true,
         });
