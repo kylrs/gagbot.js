@@ -9,7 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const CommandLoader = require('./command/CommandLoader.js');
+const Command = require('./command/Command.js');
 const EventHandler = require('./EventHandler.js');
 
 module.exports = class ModuleLoader {
@@ -51,8 +51,6 @@ module.exports = class ModuleLoader {
      * @returns {boolean} Evaluate truthiness of callback return value
      */
     loadModules(callback) {
-
-        const commandLoader = new CommandLoader(this.client);
         new EventHandler(this.client);
 
         for (let name of this.modules) {
@@ -65,7 +63,7 @@ module.exports = class ModuleLoader {
             console.log(`Loading module '${name}'`);
 
             const commandsPath = path.join(modulePath, 'commands');
-            commandLoader.usingPath(commandsPath).loadCommands();
+            Command.loadCommands(this.client, commandsPath);
 
             const eventsFile = path.join(modulePath, 'events.js');
             this.client.eventHandler.registerModule(eventsFile);

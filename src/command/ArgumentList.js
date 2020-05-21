@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.0.0
+ * @version v1.1.0
  */
 module.exports = class ArgumentList {
 
@@ -41,12 +41,12 @@ module.exports = class ArgumentList {
      * Get an argument's value by name
      *
      * @author Kay <kylrs00@gmail.com>
-     * @since r20.0.0
+     * @since r20.1.0
      *
      * @param name
      * @returns {*}
      */
-    arg(name) {
+    get(name) {
         return this.#args[name];
     }
 
@@ -54,38 +54,24 @@ module.exports = class ArgumentList {
      * Get an argument's type by name
      *
      * @author Kay <kylrs00@gmail.com>
-     * @since r20.0.0
+     * @since r20.1.0
      *
      * @param name
      * @returns {*}
      */
-    type(name) {
+    typeOf(name) {
         return this.#args[name];
-    }
-
-    /**
-     * Return a Proxy of this ArgumentList, allowing use of [] indexing.
-     *
-     * @author Kay <kylrs00@gmail.com>
-     * @since r20.0.0
-     *
-     * @returns {ArgumentList}
-     */
-    indexable() {
-        return new Proxy(this, {
-            get: (target, name) => target.arg(name)
-        });
     }
 
     /**
      * Return the array/object of argument values in JSON format
      *
      * @author Kay <kylrs00@gmail.com>
-     * @since r20.0.0
+     * @since r20.1.0
      *
      * @returns {string}
      */
-    toString() {
-        return JSON.stringify(this.#args);
+    asString() {
+        return JSON.stringify(this.#args, null, 4);
     }
 };
