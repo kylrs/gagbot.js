@@ -4,13 +4,14 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.0.1
+ * @version v1.1.1
  */
 
 const fs = require('fs');
 const path = require('path');
 const { Collection } = require('discord.js');
 const ArgumentList = require('./ArgumentList.js');
+const { checkUserCanExecuteCommand } = require('../Permissions');
 
 module.exports = class Command {
 
@@ -83,8 +84,8 @@ module.exports = class Command {
      * @param {object} options
      * @returns {Error|undefined}
      */
-    static dispatchCommand(client, message, options) {
-        if (!client.hasOwnProperty('commands')) return null;
+    static async dispatchCommand(client, message, options) {
+        if (!client.hasOwnProperty('commands')) return;
 
         options = Object.assign(Command.#DEFAULT_OPTIONS, options || {});
 
@@ -106,6 +107,8 @@ module.exports = class Command {
         if (!client.commands.has(name)) return new Error(`No such command '${name}'.`);
         let command = client.commands.get(name);
 
+        if (!(await checkUserCanExecuteCommand(message.guild, message.author, command))) return;
+
         // Parse the arguments
         let args = command.parseArgs(tail);
         if (args instanceof Error) return args;
@@ -120,13 +123,15 @@ module.exports = class Command {
      * @author Kay <kylrs00@gmail.com>
      * @since r20.1.0
      */
-    constructor(name, description, args) {
+    constructor(name, description, permissionNode, permissionDefault, args) {
         if (new.target === Command) {
             throw new TypeError("Cannot construct Abstract instances directly");
         }
 
         this.name = name;
         this.description = description;
+        this.permissionNode = permissionNode;
+        this.permissionDefault = permissionDefault;
         this.args = args;
     }
 
