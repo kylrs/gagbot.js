@@ -168,7 +168,7 @@ module.exports = class Command {
             }
         } else {
             // If no args are required, split by whitespace and assume all tokens are of type String
-            tail.split(/\w+/)
+            tail.split(/\s+/)
                 .forEach((arg, i) => args.add(i, arg, String));
         }
 
