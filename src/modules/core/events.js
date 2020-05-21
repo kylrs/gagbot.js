@@ -4,11 +4,11 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.0.0
+ * @version v1.1.0
  */
 
 const { MessageEmbed } = require('discord.js');
-const CommandParser = require('../../command/CommandParser.js');
+const Command = require('../../command/Command.js');
 const config = require('../../../config.json');
 
 module.exports = {
@@ -39,28 +39,19 @@ module.exports = {
     on_message(client, message) {
         if (message.author.bot) return;
 
-        try {
-            // Attempt to parse the message as a command. Ignore it if nothing was parsed
-            const parsed = new CommandParser({
-                prefixes: client.config.prefixes,
-                allowLeadingWhitespace: true,
-            }).parseMessage(client, message);
+        const res = Command.dispatchCommand(client, message, {
+            prefixes: client.config.prefixes,
+            allowLeadingWhitespace: true,
+        });
 
-            if (parsed === null) return;
-            if (parsed instanceof Error) throw parsed;
-            const {command, args} = parsed;
-            command.execute(message, args, client.db);
-        }
-        catch (err) {
-            const msg = err instanceof Error ? err.message : err.toString();
-
-            console.error(err);
+        if (res instanceof Error) {
+            console.error(res);
 
             // Send error in chat
             const embed = new MessageEmbed()
                 .setTitle(config.errorMessage)
                 .setColor(0xff0000)
-                .setDescription(msg);
+                .setDescription(res.message);
             const dedEmoji = message.guild.emojis.cache.find(emoji => emoji.name === 'gagded');
             if (dedEmoji) embed.setThumbnail(`https://cdn.discordapp.com/emojis/${dedEmoji.id}.png`);
             message.channel.send(embed);
