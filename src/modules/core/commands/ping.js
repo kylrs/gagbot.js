@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.1.0
+ * @version v1.2.0
  */
 
 const Command = require('../../../command/Command.js');
@@ -18,7 +18,7 @@ module.exports = class PingCommand extends Command {
      * @since r20.1.0
      */
     constructor() {
-        super("ping", "Ping!");
+        super("ping", "Ping!", "gagbot:core:ping", true);
     }
 
     /**
