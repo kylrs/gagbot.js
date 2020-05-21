@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.0.0
+ * @version v1.0.1
  */
 
 const fs = require('fs');
@@ -169,7 +169,7 @@ module.exports = class Command {
         } else {
             // If no args are required, split by whitespace and assume all tokens are of type String
             tail.split(/\w+/)
-                .forEach((arg) => args.add(arg, String));
+                .forEach((arg, i) => args.add(i, arg, String));
         }
 
         return args;
