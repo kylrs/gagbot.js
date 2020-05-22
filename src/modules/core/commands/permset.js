@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.0.0
+ * @version v1.1.0
  */
 
 const Command = require('../../../command/Command.js');
@@ -41,7 +41,7 @@ module.exports = class PermSetCommand extends Command {
      * @param {ArgumentList} args
      * @returns {boolean}
      */
-    execute(client, message, args) {
+    async execute(client, message, args) {
 
         const guild = message.guild;
         const rid = args.get("roleID");
@@ -60,20 +60,23 @@ module.exports = class PermSetCommand extends Command {
 
         const allow = args.get("allow");
 
-        client.db.guilds.update(
-            { id: guild.id },
-            { $set: {[`permissions.roles.${rid}.${node}`] : allow} },
-            { upsert: true },
-            function(err) {
-                if (err) {
-                    message.channel.send('A database error occurred :/');
-                    console.error(err);
-                    return;
-                }
+        const doc = await client.db.guild.findOne({id: guild.id});
+        const roles = doc.permissions.roles;
 
-                message.channel.send('Permission set.');
+        if (!roles.has(rid)) roles.set(rid, new Map());
+        const perms = roles.get(rid);
+
+        perms.set(node, allow);
+
+        doc.markModified('permissions.roles');
+        doc.save(function(err, doc) {
+            if (err) {
+                console.error(err);
+                message.channel.send('A database error occurred :/');
+                return;
             }
-        );
 
+            message.channel.send('Permission set.');
+        });
     }
 };

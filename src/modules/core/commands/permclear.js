@@ -39,7 +39,7 @@ module.exports = class PermClearCommand extends Command {
      * @param {ArgumentList} args
      * @returns {boolean}
      */
-    execute(client, message, args) {
+    async execute(client, message, args) {
 
         const guild = message.guild;
         const rid = args.get("roleID");
@@ -56,20 +56,24 @@ module.exports = class PermClearCommand extends Command {
             return false;
         }
 
-        client.db.guilds.update(
-            { id: guild.id },
-            { $unset: {[`permissions.roles.${rid}`] : true} },
-            { upsert: true },
-            function(err) {
-                if (err) {
-                    message.channel.send('A database error occurred :/');
-                    console.error(err);
-                    return;
-                }
+        const doc = await client.db.guild.findOne({id: guild.id});
+        const roles = doc.permissions.roles;
 
-                message.channel.send('Permissions cleared.');
+        if (!roles.has(rid)) roles.set(rid, new Map());
+        const perms = roles.get(rid);
+
+        perms.clear();
+
+        doc.markModified('permissions.roles');
+        doc.save(function(err, doc) {
+            if (err) {
+                console.error(err);
+                message.channel.send('A database error occurred :/');
+                return;
             }
-        );
+
+            message.channel.send('Permissions cleared.');
+        });
 
     }
 };

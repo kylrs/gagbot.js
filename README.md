@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.0.3
+  @version v1.1.3
 -->
 
 # gagbot.js
@@ -8,8 +8,8 @@
 
 ## Features
  - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze!
+ - **Permissions** - Fine-tune access to custom commands with simple permission nodes per role.
 ### Upcoming Features
- - **Permissions** - Allow server administrators to fine-tune access to GaGBot features at channel, role and user levels.
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
  - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
  
@@ -22,6 +22,7 @@
  - Install `git`
  - Install `node`, version 14.0.0 or later
  - Install `npm`
+ - A MongoDB server.
  
 ### Installation
   1. [Create a Discord Application and get a Bot Token](https://discord.com/developers/docs/intro#bots-and-apps)
@@ -43,7 +44,9 @@
   npm install
 ```
     
-  5. Create an environment variable named 'DISCORD_TOKEN', and set it to your bot's token.
+  5. Create an environment variable named `DISCORD_TOKEN`, and set it to your bot's token.
+  
+  6. Add your MongoDB Connection to an environment variable named `MONGO_DB_URI`.
   
   6. Run the bot. If all goes well, you'll see the modules being loaded, followed by a message that your bot has logged in to Discord.
   
@@ -79,7 +82,7 @@ Please make sure you take a look at our [Code of Conduct](./CONTRIBUTING.md) bef
 
   - [Node.js](https://nodejs.org)
   - [discord.js](https://discord.js.org)
-  - [NeDB](https://github.com/louischatriot/nedb)
+  - [MongoDB](https://www.mongodb.com)
   
 ## Versioning
 

@@ -1,7 +1,5 @@
 {
-  "token": "EXAMPLE_TOKEN",
   "prefixes" : ["gb!"],
   "errorMessage": "_Womp Womp_",
-  "datastore": "data",
   "modules": []
 }

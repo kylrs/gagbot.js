@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.0.0
+ * @version v1.1.0
  */
 
 /**
@@ -19,30 +19,26 @@
  * @returns {number} 1 if true, 0 if false, -1 if unset
  */
 async function getRolePermission(guild, roleID, node) {
-    const client = guild.client;
+
+    const doc = await guild.client.db.guild.findOne({"id": guild.id});
+
+    if (!doc) return -1;
+
+    const roles = doc.permissions.roles;
+
+    if (!roles.has(roleID)) return -1;
+
+    const nodes = roles.get(roleID);
 
     let res = -1;
-
-    await new Promise(function(resolve, reject) {
-        client.db.guilds.findOne({id: guild.id}, function (err, doc) {
-            if (err) reject(err);
-            else resolve(doc);
-        });
-    }).then(function(doc) {
-        const roles = doc.permissions.roles;
-        if (!roles.hasOwnProperty(roleID)) return;
-        const nodes = new Set(Object.keys(roles[roleID]));
-        let search = node;
-        do {
-            if (nodes.has(search)) {
-                res = roles[roleID][search] ? 1 : 0;
-                break;
-            }
-            search = search.substring(0, search.lastIndexOf(':', search.length - 3)) + ":*";
-        } while (search.length > 0 && search !== ":*");
-    }).catch(function(err) {
-        console.error(err);
-    });
+    let search = node;
+    do {
+        if (nodes.has(search)) {
+            res = nodes.get(search) ? 1 : 0;
+            break;
+        }
+        search = search.substring(0, search.lastIndexOf(':', search.length - 3)) + ":*";
+    } while (search.length > 0 && search !== ":*");
 
     return res;
 }

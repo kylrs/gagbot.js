@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.2.0
+ * @version v1.3.0
  */
 
 const { MessageEmbed } = require('discord.js');
@@ -55,6 +55,28 @@ module.exports = {
             const dedEmoji = message.guild.emojis.cache.find(emoji => emoji.name === 'gagded');
             if (dedEmoji) embed.setThumbnail(`https://cdn.discordapp.com/emojis/${dedEmoji.id}.png`);
             message.channel.send(embed);
+        }
+    },
+
+    /**
+     * Create a document in the guilds collection when joining a new server
+     *
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.1.0
+     *
+     * @param client
+     * @param guild
+     */
+    async on_guildCreate(client, guild) {
+        console.log(`Joining a new guild, ${guild.name}`);
+        const doc = await client.db.guild.findOne({id: guild.id});
+        if (!doc) {
+            client.db.guild.create({id: guild.id}, function(err) {
+                if (err) {
+                    console.error('An error occurred joining a guild:');
+                    console.error(err);
+                }
+            })
         }
     },
 };
