@@ -9,7 +9,6 @@
 
 const { MessageEmbed } = require('discord.js');
 const Command = require('../../command/Command.js');
-const config = require('../../../config.json');
 
 module.exports = {
     /**
@@ -49,7 +48,7 @@ module.exports = {
 
             // Send error in chat
             const embed = new MessageEmbed()
-                .setTitle(config.errorMessage)
+                .setTitle(client.config.errorMessage)
                 .setColor(0xff0000)
                 .setDescription(res.message);
             const dedEmoji = message.guild.emojis.cache.find(emoji => emoji.name === 'gagded');
