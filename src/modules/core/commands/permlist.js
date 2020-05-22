@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.0.0
+ * @version v1.1.0
  */
 
 const Command = require('../../../command/Command.js');
@@ -49,30 +49,37 @@ module.exports = class PermListCommand extends Command {
             return false;
         }
 
-
-        client.db.guilds.findOne({ id: guild.id }, function(err, doc) {
+        client.db.guild.findOne({ id: guild.id }, function(err, doc) {
             if (err) {
                 message.channel.send('A database error occurred :/');
                 return;
             }
 
-            const roles = doc.permissions.roles;
-            if (rid in roles) {
-                let msg = "```diff\n";
-                const perms = roles[rid];
-                const sorted = Object.keys(perms).sort();
-                const maxWidth = Math.max(...sorted.map((x) => x.length));
-                sorted.forEach(function(key) {
-                    const allowed = perms[key];
-                    const symbol = allowed ? '+' : '-';
-                    const name = key.padEnd(maxWidth, " ");
-                    msg += `${symbol} ${name} : ${allowed}\n`;
-                });
-                msg += "```";
-                message.channel.send(msg);
-            } else {
+            if (!doc) {
                 message.channel.send('No perms set.');
+                return true;
             }
+
+            if (!doc.permissions.roles.has(rid)) {
+                message.channel.send('No perms set.');
+                return true;
+            }
+
+            const perms = doc.permissions.roles.get(rid);
+            const sorted = [...perms.keys()].sort();
+            const maxWidth = Math.max(...sorted.map((x) => x.length));
+
+            let msg = "";
+            sorted.forEach(function(node) {
+                const allowed = perms.get(node);
+                const symbol = allowed ? '+' : '-';
+                const name = node.padEnd(maxWidth, " ");
+                msg += `${symbol} ${name} : ${allowed}\n`;
+            });
+            if (!msg.length) msg = "No perms set.";
+            else msg = "```diff\n" + msg + "```";
+            message.channel.send(msg);
+
         });
 
         return true;
