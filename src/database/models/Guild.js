@@ -10,18 +10,51 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  id: String,
-  permissions: {
-    roles: {
-      type: Map,
-      of: {
-        type: Map,
-        of: Boolean,
-        default: new Map(),
-      },
-      default: new Map(),
+    id: String,
+    name: String,
+    permissions: {
+        roles: {
+            type: Map,
+            of: {
+                type: Map,
+                of: Boolean,
+            },
+            default: new Map(),
+        }
+    },
+});
+
+/**
+ * Ensure that the guild document has all the right fields
+ */
+schema.static('ensureDefaults', async function(guild) {
+    const doc = await this.findOne({id: guild.id});
+    if (doc === null) {
+        return this.create({id: guild.id, name: guild.name}, function(err) {
+            if (err) {
+                console.error('An error occurred joining a guild:');
+                console.error(err);
+            }
+        })
     }
-  },
+
+    if (!doc.name) {
+        doc.name = guild.name;
+        doc.markModified('name');
+    }
+
+    if (!doc.permissions.roles) {
+        doc.permissions.roles = new Map();
+        doc.markModified('permissions.roles');
+    }
+
+    if (!doc.permissions.users) {
+        doc.permissions.users = new Map();
+        doc.markModified('permissions.users');
+    }
+
+    return doc.save();
+
 });
 
 const model = mongoose.model('Guild', schema);
