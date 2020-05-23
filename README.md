@@ -1,15 +1,18 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.1.5
+  @version v1.2.0
 -->
 
 # gagbot.js
 **GaGBot is a utility bot for discord servers, written in JavaScript for Node.js**
 
+To get the latest stable release, check out [the releases page](https://github.com/kylrs/gagbot.js/releases).
+
 ## Features
  - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze!
  - **Permissions** - Fine-tune access to custom commands with simple permission nodes per role.
 ### Upcoming Features
+ - **Greet Module** - Send new users a welcome message when they join the server.
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
  - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
  
@@ -27,16 +30,7 @@
 ### Installation
   1. [Create a Discord Application and get a Bot Token](https://discord.com/developers/docs/intro#bots-and-apps)
   2. Invite the bot to your server.
-  
-  **In Git Bash:**
-  
-  3. Clone the repo
-  
-```
-  cd /path/to/bot/repo
-  git clone https://github.com/kylrs/gagbot.js.git
-```
-    
+  3. Clone the repo or [grab a stable release (recommended)](https://github.com/kylrs/gagbot.js/releases)
   4. Install the bot
   
 ```
@@ -45,9 +39,7 @@
 ```
     
   5. Create an environment variable named `DISCORD_TOKEN`, and set it to your bot's token.
-  
   6. Add your MongoDB connection string to an environment variable named `MONGO_DB_URI`.
-  
   6. Run the bot. If all goes well, you'll see the modules being loaded, followed by a message that your bot has logged in to Discord.
   
 ```
@@ -57,26 +49,6 @@
   7. You can test your bot using the `gb!ping` command in your server chat, which is included in the `core` module.
   
   8. [Configure GaGBot](https://github.com/kylrs/gagbot.js/wiki/Configuration)!
-  
-## Contributing
-GaGBot welcomes new collaborators! If you're interested in chipping in, make sure to take note of the guidelines below.
-
-### Issues & Pull Requests
-
- - Before contributing anything to GaGBot, discuss the changes you'd like to make in an issue.
-   - You should include details about the purpose, scope, justification and, if possible, details of a proposed implementation.
-   - Make sure your issues are tagged appropriately.
- - When you're ready to make a pull request, make sure your PR satisfies the following criteria:
-   - Build dependencies (e.g. `node_modules`), IDE project files (e.g. `.idea`), etc. are not tracked by the PR branch.
-   - `README.md` reflects any changes, where necessary
-   - Files are versioned appropriately, using the `MAJOR.MINOR.PATCH` semantic versioning syntax. 
-     - New files must use `v1.0.0`, and include the release code of the target GaGBot release.
-   - The PR is labeled appropriately, and the title & description are descriptive.
-   - Issues closed by this PR are [linked using keywords](https://help.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword).
-
-### Code of Conduct
-
-Please make sure you take a look at our [Code of Conduct](./CONTRIBUTING.md) before getting involved with the project. This isn't intended to be too strict, but only to foster a welcoming and tolerant community that is conducive to collaboration.
 
 ## Built With
 
@@ -86,9 +58,9 @@ Please make sure you take a look at our [Code of Conduct](./CONTRIBUTING.md) bef
   
 ## Versioning
 
-We use MAJOR.MINOR.PATCH semantic versioning in two different flavours. One for versioning code, and the other for releases. For more information, [visit the wiki]().
+We use MAJOR.MINOR.PATCH semantic versioning in two different flavours. One for versioning code, and the other for releases. For more information, [visit the wiki](https://github.com/kylrs/gagbot.js/wiki/Versioning).
 
-We are currently on `r20.1.0`
+The latest stable release is `r20.1.0`.
 
 ## Contributors
 
