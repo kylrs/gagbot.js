@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.1.4
+  @version v1.1.5
 -->
 
 # gagbot.js
@@ -88,7 +88,7 @@ Please make sure you take a look at our [Code of Conduct](./CONTRIBUTING.md) bef
 
 We use MAJOR.MINOR.PATCH semantic versioning in two different flavours. One for versioning code, and the other for releases. For more information, [visit the wiki]().
 
-We are currently on `r20.0.0`
+We are currently on `r20.1.0`
 
 ## Contributors
 
