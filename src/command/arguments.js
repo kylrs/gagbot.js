@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.0
+ * @version v1.1.1
  */
 
 /**
@@ -19,12 +19,12 @@
  * @returns {[string|null, string]}
  */
 module.exports.str = function str(input) {
-    const re = /^("((\\.)|[^\\"])")|(\S+)(\s|$)+/;
+    const re = /^(("((\\.)|[^\\"])*")|(\S+))(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
 
-    const str = match[0].trim();
+    const str = match[1].trim().replace(/(?<!\\)"/g, '');
     const rest = input.substring(match[0].length);
     return [str, rest];
 };
