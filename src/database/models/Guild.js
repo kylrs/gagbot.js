@@ -22,6 +22,9 @@ const schema = new mongoose.Schema({
             default: new Map(),
         }
     },
+    data: {
+        type: mongoose.Schema.Types.Mixed,
+    }
 });
 
 /**
@@ -51,6 +54,11 @@ schema.static('ensureDefaults', async function(guild) {
     if (!doc.permissions.users) {
         doc.permissions.users = new Map();
         doc.markModified('permissions.users');
+    }
+
+    if (!doc.data) {
+        doc.data = {};
+        doc.markModified('data');
     }
 
     return doc.save();
