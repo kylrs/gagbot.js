@@ -4,13 +4,11 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.1
+ * @version v1.1.2
  */
 
 /**
  * Parse a continuous string of non-whitespace characters.
- *
- * TODO: Allow delimited strings (allowing whitespace)
  *
  * @author Kay <kylrs00@gmail.com>
  * @since r20.1.0
@@ -126,7 +124,7 @@ module.exports.user = function user(input) {
     if (id !== null ) return [id, rest];
 
     // Try to parse an ID from a tag "<@!XXX...>"
-    const re = /<@!(\d+)>(\s|$)+/;
+    const re = /<@!?(\d+)>(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -154,7 +152,7 @@ module.exports.role = function role(input) {
     if (id !== null ) return [id, rest];
 
     // Try to parse an ID from a tag "<@&XXX...>"
-    const re = /<@&(\d+)>(\s|$)+/;
+    const re = /<@&?(\d+)>(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
