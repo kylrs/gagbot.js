@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.1.3
+  @version v1.1.4
 -->
 
 # gagbot.js
@@ -46,7 +46,7 @@
     
   5. Create an environment variable named `DISCORD_TOKEN`, and set it to your bot's token.
   
-  6. Add your MongoDB Connection to an environment variable named `MONGO_DB_URI`.
+  6. Add your MongoDB connection string to an environment variable named `MONGO_DB_URI`.
   
   6. Run the bot. If all goes well, you'll see the modules being loaded, followed by a message that your bot has logged in to Discord.
   

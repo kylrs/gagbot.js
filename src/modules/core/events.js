@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.3.0
+ * @version v1.4.0
  */
 
 const { MessageEmbed } = require('discord.js');
@@ -22,6 +22,7 @@ module.exports = {
     async on_ready(client) {
         console.log(`Logged in as ${client.user.tag} to guilds:`);
         for (let guild of client.guilds.cache.values()) {
+            await client.db.guild.ensureDefaults(guild);
             console.log(`  > ${guild.name}`);
         }
     },
@@ -68,14 +69,6 @@ module.exports = {
      */
     async on_guildCreate(client, guild) {
         console.log(`Joining a new guild, ${guild.name}`);
-        const doc = await client.db.guild.findOne({id: guild.id});
-        if (!doc) {
-            client.db.guild.create({id: guild.id}, function(err) {
-                if (err) {
-                    console.error('An error occurred joining a guild:');
-                    console.error(err);
-                }
-            })
-        }
+        await client.db.guild.ensureDefaults(guild);
     },
 };
