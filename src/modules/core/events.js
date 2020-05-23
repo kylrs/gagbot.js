@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.3.0
+ * @version v1.4.0
  */
 
 const { MessageEmbed } = require('discord.js');
