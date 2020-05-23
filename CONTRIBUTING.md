@@ -1,4 +1,23 @@
-## Code of Conduct
+<!--
+@author Kay <kylrs00@gmail.com>
+@version v1.2.0
+-->
+
+# Issues & Pull Requests
+
+- Before contributing anything to GaGBot, discuss the changes you'd like to make in an issue.
+    - Use one of the provided templates.
+    - You should include details about the purpose, scope, justification and, if possible, details of a proposed implementation.
+    - Make sure your issues are tagged appropriately.
+- When you're ready to make a pull request, make sure your PR satisfies the following criteria:
+    - Build dependencies (e.g. `node_modules`), IDE project files (e.g. `.idea`), etc. are not tracked by the PR branch.
+    - `README.md` reflects any changes, where necessary
+    - Files are versioned appropriately, using the `MAJOR.MINOR.PATCH` semantic versioning syntax. 
+        - New files must use `v1.0.0`, and include the release code of the target GaGBot release.
+    - The PR is labeled appropriately, and the title & description are descriptive.
+    - Issues closed by this PR are [linked using keywords](https://help.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword).
+
+# Code of Conduct
 ### Our Pledge
 
 In the interest of fostering an open and welcoming environment, we as
@@ -13,21 +32,21 @@ appearance, race, religion, or sexual identity and orientation.
 Examples of behavior that contributes to creating a positive environment
 include:
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
+- The use of sexualized language or imagery and unwelcome sexual attention or
   advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
+- Trolling, insulting/derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or electronic
   address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
+- Other conduct which could reasonably be considered inappropriate in a
   professional setting
 
 ### Our Responsibilities
