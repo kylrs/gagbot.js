@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.1
+ * @version v1.1.2
  */
 
 const fs = require('fs');
@@ -104,7 +104,7 @@ module.exports = class Command {
         tail = tail.substring(name.length).trimStart();
 
         // Get the command from the client's Collection, if it exists
-        if (!client.commands.has(name)) return new Error(`No such command '${name}'.`);
+        if (!client.commands.has(name)) return;
         let command = client.commands.get(name);
 
         if (!(await checkUserCanExecuteCommand(message.guild, message.author, command))) return;
