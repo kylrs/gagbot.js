@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.2
+ * @version v1.1.3
  */
 
 /**
@@ -44,7 +44,7 @@ module.exports.str = function str(input) {
  */
 module.exports.num = function num(input) {
     let num;
-    const re = /([A-Za-z0-9]+_\d+)|(^-?\d*\.?\d+([Ee][-+]?\d+)?)(\s|$)+/;
+    const re = /^([A-Za-z0-9]+_\d+)|(^-?\d*\.?\d+([Ee][-+]?\d+)?)(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -75,7 +75,7 @@ module.exports.num = function num(input) {
  * @returns {[boolean|null, string]}
  */
 module.exports.bool = function bool(input) {
-    const re = /((true)|(false)|t|f)(\s|$)+/i;
+    const re = /^((true)|(false)|t|f)(\s|$)+/i;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -96,7 +96,7 @@ module.exports.bool = function bool(input) {
  * @returns {[boolean|null, string]}
  */
 module.exports.id = function id(input) {
-    const re = /(\d+)(\s|$)+/;
+    const re = /^(\d+)(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -124,7 +124,7 @@ module.exports.user = function user(input) {
     if (id !== null ) return [id, rest];
 
     // Try to parse an ID from a tag "<@!XXX...>"
-    const re = /<@!?(\d+)>(\s|$)+/;
+    const re = /^<@!?(\d+)>(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -152,7 +152,7 @@ module.exports.role = function role(input) {
     if (id !== null ) return [id, rest];
 
     // Try to parse an ID from a tag "<@&XXX...>"
-    const re = /<@&?(\d+)>(\s|$)+/;
+    const re = /^<@&?(\d+)>(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -180,7 +180,7 @@ module.exports.channel = function channel(input) {
     if (id !== null ) return [id, rest];
 
     // Try to parse an ID from a tag "<@&XXX...>"
-    const re = /<#(\d+)>(\s|$)+/;
+    const re = /^<#(\d+)>(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
@@ -202,7 +202,7 @@ module.exports.channel = function channel(input) {
  */
 module.exports.emoji = function emoji(input) {
 
-    const re = /(<:[0-9A-Za-z_]+:\d+>)|(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])(\s|$)+/;
+    const re = /^(<:[0-9A-Za-z_]+:\d+>)|(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])(\s|$)+/;
     const match = input.match(re);
 
     if (match === null) return [null, input];
