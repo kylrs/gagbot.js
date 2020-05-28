@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.4
+ * @version v1.2.0
  */
 
 /**
@@ -229,4 +229,114 @@ module.exports.emoji = function emoji(input) {
     }
 
     return [null, input];
+};
+
+
+/**
+ * Take a parsing function X, and return a parsing function that succeeds even if parsing X fails, without consuming input
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {function(input):[any, string]} arg
+ * @returns {function(input):[any, string]}
+ */
+module.exports.optional = function optional(arg) {
+    const key = `?${arg.name}`;
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            const [match, rest] = arg(input);
+            if (match === null) return [undefined, input];
+            return [match, rest];
+        }
+    };
+
+    return wrapper[key];
+};
+
+
+/**
+ * Take a list of parsing functions, and return a parsing function which will return the result of the first successful match of these functions
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {function(input):[any, string]} args
+ * @returns {function(input):[any, string]}
+ */
+module.exports.choice = function choice(...args) {
+    const key = args.map((x) => x.name).join('|');
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            for (let arg of Object.values(args)) {
+                const [match, rest] = arg(input);
+                if (match !== null) return [match, rest];
+            }
+            return [null, input];
+        }
+    };
+
+    return wrapper[key];
+};
+
+
+/**
+ * Take a string and return a parsing function that matches and consumes that exact string.
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {string} arg
+ * @returns {function(input):[any, string]}
+ */
+module.exports.i =
+module.exports.ident = function ident(arg) {
+    const key = `'${arg}'`;
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            if (input.startsWith(arg)) {
+                const rest = input.slice(arg.length).trim();
+                return [arg, rest];
+            }
+            return [null, input];
+        }
+    };
+
+    return wrapper[key];
+};
+
+
+/**
+ * Return a parsing function that matches the input function one or more times
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {string} arg
+ * @returns {function(input):[any, string]}
+ */
+module.exports.some = function some(arg) {
+    const key = `${arg}...`;
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            const matches = [];
+            let match, rest = input;
+
+            do {
+                [match, rest] = arg(rest);
+                if (match === null) break;
+                matches.push(match);
+            } while (true);
+
+            if (matches.length === 0) return [null, input];
+
+            return [matches, rest.trimStart()];
+        }
+    };
+
+    return wrapper[key];
 };
