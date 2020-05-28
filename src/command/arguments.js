@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.3
+ * @version v1.1.4
  */
 
 /**
@@ -202,12 +202,31 @@ module.exports.channel = function channel(input) {
  */
 module.exports.emoji = function emoji(input) {
 
-    const re = /^(<:[0-9A-Za-z_]+:\d+>)|(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])(\s|$)+/;
+    // Annoying emoji that don't play right if matched with unicode regex
+    const emojiChars = {
+        a: '🇦', b: '🇧', c: '🇨', d: '🇩', e: '🇪', f: '🇫', g: '🇬', h: '🇭', i: '🇮', j: '🇯', k: '🇰', l: '🇱', m: '🇲',
+        n: '🇳', o: '🇴', p: '🇵', q: '🇶', r: '🇷', s: '🇸', t: '🇹', u: '🇺', v: '🇻', w: '🇼', x: '🇽', y: '🇾', z: '🇿',
+        0: '0️⃣', '#': '#️⃣', '*': '*️⃣', '!': '❗', '?': '❓',
+        1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣', 5: '5️⃣',
+        6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣', 10: '🔟',
+    };
+
+    for (let emoji of Object.values(emojiChars)) {
+        if (input.startsWith(emoji)) {
+            const rest = input.substring(emoji.length);
+            return [emoji, rest];
+        }
+    }
+
+    // Discord custom emoji or regular unicode emoji
+    const re = /^(<:[0-9A-Za-z_]*:\d+>)|(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])(\s|$)+/;
     const match = input.match(re);
 
-    if (match === null) return [null, input];
+    if (match !== null) {
+        const emoji = match[0].trim();
+        const rest = input.substring(match[0].length);
+        return [emoji, rest];
+    }
 
-    const emoji = match[0].trim();
-    const rest = input.substring(match[0].length);
-    return [emoji, rest];
+    return [null, input];
 };
