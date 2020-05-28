@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.2.0
+ * @version v1.2.1
  */
 
 /**
@@ -238,8 +238,8 @@ module.exports.emoji = function emoji(input) {
  * @author Kay <kylrs00@gmail.com>
  * @since r20.2.0
  *
- * @param {function(input):[any, string]} arg
- * @returns {function(input):[any, string]}
+ * @param {function(string):[any, string]} arg
+ * @returns {function(string):[any, string]}
  */
 module.exports.optional = function optional(arg) {
     const key = `?${arg.name}`;
@@ -262,8 +262,8 @@ module.exports.optional = function optional(arg) {
  * @author Kay <kylrs00@gmail.com>
  * @since r20.2.0
  *
- * @param {function(input):[any, string]} args
- * @returns {function(input):[any, string]}
+ * @param {function(string):[any, string]} args
+ * @returns {function(string):[any, string]}
  */
 module.exports.choice = function choice(...args) {
     const key = args.map((x) => x.name).join('|');
@@ -289,7 +289,7 @@ module.exports.choice = function choice(...args) {
  * @since r20.2.0
  *
  * @param {string} arg
- * @returns {function(input):[any, string]}
+ * @returns {function(string):[any, string]}
  */
 module.exports.i =
 module.exports.ident = function ident(arg) {
@@ -315,11 +315,11 @@ module.exports.ident = function ident(arg) {
  * @author Kay <kylrs00@gmail.com>
  * @since r20.2.0
  *
- * @param {string} arg
- * @returns {function(input):[any, string]}
+ * @param {function(string):[any, string]} arg
+ * @returns {function(string):[any, string]}
  */
 module.exports.some = function some(arg) {
-    const key = `${arg}...`;
+    const key = `${arg.name}...`;
     // Use an object property to give the function a dynamic name
     const wrapper = {
         [key]: function(input) {
