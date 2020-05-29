@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.3.1
+ * @version v1.4.0
  */
 
 const fs = require('fs');
@@ -64,11 +64,16 @@ module.exports = class Command {
 
         options = Object.assign(Command.#DEFAULT_OPTIONS, options || {});
 
-        // Attempt to match the guild's prefix, otherwise ignore the message
-        const prefix = client.prefixes[message.guild.id];
-        if (!message.content.startsWith(prefix)) return;
-        let tail = message.content.substring(prefix.length);
+        // Match the guild's prefix, or the bot's tag, otherwise ignore the message
+        const regexMention = `<@!?${client.user.id}>`;
+        const gid = message.guild.id;
+        const regexPrefix = client.prefixes[gid].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+        const summoner = new RegExp(`^((${regexMention})|(${regexPrefix}))`);
+        const matches = message.content.match(summoner);
+        if (!matches) return;
+
+        let tail = message.content.substring(matches[0].length);
         if (options.allowLeadingWhitespace) {
             tail = tail.trimStart();
         }
