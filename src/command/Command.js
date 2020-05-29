@@ -4,12 +4,12 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.1.2
+ * @version v1.2.0
  */
 
 const fs = require('fs');
 const path = require('path');
-const { Collection } = require('discord.js');
+const { Collection, MessageEmbed } = require('discord.js');
 const ArgumentList = require('./ArgumentList.js');
 const { checkUserCanExecuteCommand } = require('../Permissions');
 
@@ -107,15 +107,30 @@ module.exports = class Command {
         if (!client.commands.has(name)) return;
         let command = client.commands.get(name);
 
+        // If the command doesn't exist, fail silently
         if (!(await checkUserCanExecuteCommand(message.guild, message.author, command))) return;
+
+        let error = null;
 
         // Parse the arguments
         let args = command.parseArgs(tail);
-        if (args instanceof Error) return args;
 
-        // Execute the command with the parsed arguments
-        return command.execute(client, message, args);
+        // If the arguments are not invalid
+        if (args instanceof Error) error = args;
+        else if (!command.execute(client, message, args)) error = new Error(`Usage Error`);
+
+        if (error) {
+            message.channel.send(new MessageEmbed()
+                .setTitle(error.message)
+                .addFields(
+                    { name: 'Usage', value: '`' + prefix + command.getUsage() + '`'},
+                    { name: 'Description', value: command.description },
+                )
+                .setColor(0xff0000)
+                .setThumbnail(`https://cdn.discordapp.com/emojis/708352247804854285.png`));
+        }
     }
+
 
     /**
      * Command constructor. Prevent construction of abstract class.
@@ -165,12 +180,14 @@ module.exports = class Command {
 
                 if (match === null) {
                     const next = tail.length > 0 ? tail.split(/\s+/)[0] : 'END';
-                    return new Error(`Expected \`${name}\`:\`${type.name}\`, found '${next}'`);
+                    return new Error(`Expected \`${name}\`:\`${type.name}\`, found '${next}'.`);
                 }
 
                 args.add(name, match, type);
                 tail = rest;
             }
+
+            if (tail.length > 0) return new Error(`Too many arguments!`);
         } else {
             // If no args are required, split by whitespace and assume all tokens are of type String
             tail.split(/\s+/)
@@ -178,6 +195,27 @@ module.exports = class Command {
         }
 
         return args;
+    }
+
+    /**
+     * Execute the functionality of the command, given the specified args
+     *
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.2.0
+     *
+     * @returns {string}
+     */
+    getUsage() {
+        let argString = '';
+
+        Object.keys(this.args).forEach((key) => {
+            argString += ' ';
+            if (!/^\d+$/.test(key)) argString += key + ':';
+            const type = this.args[key];
+            argString += type.name;
+        });
+
+        return this.name + argString;
     }
 
     /**
