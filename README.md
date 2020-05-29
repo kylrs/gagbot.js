@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.2.1
+  @version v1.2.2
 -->
 
 # gagbot.js
@@ -9,9 +9,9 @@
 To get the latest stable release, check out [the releases page](https://github.com/kylrs/gagbot.js/releases).
 
 ## Features
- - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze!
- - **Permissions** - Fine-tune access to custom commands with simple permission nodes per role.
- - **Greet Module** - Send new users a welcome message when they join the server.
+ - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze! _(r20.1.0)_
+ - **Permissions** - Fine-tune access to custom commands with simple permission nodes per role. _r(20.1.0)_
+ - **Greet Module** - Send new users a welcome message when they join the server. _(r20.2.0)_
 ### Upcoming Features
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
  - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
