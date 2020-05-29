@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.3.0
+ * @version v1.3.1
  */
 
 const fs = require('fs');
@@ -12,6 +12,7 @@ const path = require('path');
 const { Collection, MessageEmbed } = require('discord.js');
 const ArgumentList = require('./ArgumentList.js');
 const { checkUserCanExecuteCommand } = require('../Permissions');
+const { str } = require('./arguments.js');
 
 module.exports = class Command {
 
@@ -136,16 +137,10 @@ module.exports = class Command {
     parseArgs(tail) {
         let args = new ArgumentList();
         // Only parse args if they are required
-        if (this.args) {
-            if (tail.length === 0) return new Error(`Command '${this.name}' can't be called without args.`);
+        if (this.args instanceof Object) {
 
             // If required args specify keys use them, else use numbers [0, n)
-            let names;
-            if (this.args instanceof Object) {
-                names = Object.keys(this.args);
-            } else if (Array.isArray(this.args)) {
-                names = this.args.keys();
-            }
+            const names = Object.keys(this.args);
 
             // Iterate over the required arguments, attempting to match a string that can be parsed as the given type
             for (let name of names) {
@@ -163,9 +158,12 @@ module.exports = class Command {
 
             if (tail.length > 0) return new Error(`Too many arguments!`);
         } else {
-            // If no args are required, split by whitespace and assume all tokens are of type String
+            // If args is truthy, but there is nothing to parse, throw an error
+            if (this.args && tail.length === 0) return new Error(`Command '${this.name}' can't be called without args.`);
+
+            // Split by whitespace and assume all tokens are of type String
             tail.split(/\s+/)
-                .forEach((arg, i) => args.add(i, arg, String));
+                .forEach((arg, i) => args.add(i, arg, str));
         }
 
         return args;
