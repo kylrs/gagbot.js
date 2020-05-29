@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.4.0
+ * @version v1.5.0
  */
 
 const { MessageEmbed } = require('discord.js');
@@ -23,6 +23,8 @@ module.exports = {
         console.log(`Logged in as ${client.user.tag} to guilds:`);
         for (let guild of client.guilds.cache.values()) {
             await client.db.guild.ensureDefaults(guild);
+            client.prefixes = client.prefixes ?? {};
+            client.prefixes[guild.id] = (await client.db.guild.findOne({id: guild.id})).prefix;
             console.log(`  > ${guild.name}`);
         }
     },
