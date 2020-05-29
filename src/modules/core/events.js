@@ -41,10 +41,7 @@ module.exports = {
     async on_message(client, message) {
         if (message.author.bot) return;
 
-        const res = await Command.dispatchCommand(client, message, {
-            prefixes: client.config.prefixes,
-            allowLeadingWhitespace: true,
-        });
+        const res = await Command.dispatchCommand(client, message, null);
 
         if (res instanceof Error) {
             console.error(res);
