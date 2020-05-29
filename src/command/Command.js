@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.2.0
+ * @version v1.3.0
  */
 
 const fs = require('fs');
@@ -16,7 +16,6 @@ const { checkUserCanExecuteCommand } = require('../Permissions');
 module.exports = class Command {
 
     static #DEFAULT_OPTIONS = {
-        prefixes : ['gb!'],
         allowLeadingWhitespace : true,
     };
 
@@ -47,31 +46,6 @@ module.exports = class Command {
             });
     }
 
-    /**
-     * Return the longest prefix that matches the given message.
-     * If no prefix matches, return null.
-     *
-     * @author Kay <kylrs00@gmail.com>
-     * @since r20.1.0
-     *
-     * @param {Message} message
-     * @param {string[]} prefixes
-     * @returns {null|string}
-     */
-    static matchPrefix(message, prefixes) {
-        const matches = [];
-        // Find all matching prefixes
-        prefixes.forEach((prefix) => {
-            if (message.content.startsWith(prefix)) {
-                matches.push(prefix);
-            }
-        });
-
-        if (matches.length === 0) return null;
-
-        // Return the longest
-        return matches.reduce((a, b) => a.length > b.length ? a : b);
-    }
 
     /**
      * Take a Message and check if a command has been sent. If it has, execute it.
@@ -89,9 +63,9 @@ module.exports = class Command {
 
         options = Object.assign(Command.#DEFAULT_OPTIONS, options || {});
 
-        // Attempt to match a prefix, otherwise ignore the message
-        const prefix = this.matchPrefix(message, options.prefixes);
-        if (prefix === null) return;
+        // Attempt to match the guild's prefix, otherwise ignore the message
+        const prefix = client.prefixes[message.guild.id];
+        if (!message.content.startsWith(prefix)) return;
         let tail = message.content.substring(prefix.length);
 
         if (options.allowLeadingWhitespace) {
