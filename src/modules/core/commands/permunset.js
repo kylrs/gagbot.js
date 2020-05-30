@@ -76,5 +76,6 @@ module.exports = class PermUnsetCommand extends Command {
             message.channel.send('Permission unset.');
         });
 
+        return true;
     }
 };

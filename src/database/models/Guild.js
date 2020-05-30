@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.2.0
+ * @version v1.3.0
  */
 
 const mongoose = require('mongoose');
@@ -12,6 +12,10 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     id: String,
     name: String,
+    prefix: {
+        type: String,
+        default: '!',
+    },
     permissions: {
         roles: {
             type: Map,
@@ -44,6 +48,11 @@ schema.static('ensureDefaults', async function(guild) {
     if (!doc.name) {
         doc.name = guild.name;
         doc.markModified('name');
+    }
+
+    if (!doc.prefix) {
+        doc.prefix = '!';
+        doc.markModified('prefix');
     }
 
     if (!doc.permissions.roles) {
