@@ -1,5 +1,4 @@
 {
-  "prefixes" : ["!"],
   "errorMessage": "_Womp Womp_",
-  "modules": ["greet"]
+  "modules": ["greet", "reactionroles"]
 }
