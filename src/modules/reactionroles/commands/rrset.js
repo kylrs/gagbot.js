@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.2.0
- * @version v1.0.0
+ * @version v1.0.1
  */
 
 const Command = require('../../../command/Command.js');
@@ -158,7 +158,7 @@ module.exports = class ReactionRoleSetCommand extends Command {
         const role = args.get('role');
         let react = args.get('react');
 
-        if(!emoji(react)[0]) react = this.getGaGBOTEmoji(client, react);
+        if(react.startsWith('$')) react = this.getGaGBOTEmoji(client, react);
         if(!react) {
             message.channel.send(new ErrorEmbed(client.config.errorMessage, `The string ${args.get('react')} is not a valid emoji.`));
             return true;
@@ -234,7 +234,14 @@ module.exports = class ReactionRoleSetCommand extends Command {
     async updateChoice(client, message, args, set) {
         if (!args.get('react') || !args.get('role')) return false;
 
-        const react = args.get('react');
+        let react = args.get('react');
+
+        if(react.startsWith('$')) react = this.getGaGBOTEmoji(client, react);
+        if(!react) {
+            message.channel.send(new ErrorEmbed(client.config.errorMessage, `The string ${args.get('react')} is not a valid emoji.`));
+            return true;
+        }
+
         const role = args.get('role');
 
         if (!set.choices.has(react)) {
