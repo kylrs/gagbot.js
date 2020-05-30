@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.4.0
+ * @version v1.4.1
  */
 
 const fs = require('fs');
@@ -67,7 +67,8 @@ module.exports = class Command {
         // Match the guild's prefix, or the bot's tag, otherwise ignore the message
         const regexMention = `<@!?${client.user.id}>`;
         const gid = message.guild.id;
-        const regexPrefix = client.prefixes[gid].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const prefix = client.prefixes[gid];
+        const regexPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
         const summoner = new RegExp(`^((${regexMention})|(${regexPrefix}))`);
         const matches = message.content.match(summoner);
@@ -97,7 +98,7 @@ module.exports = class Command {
 
         // If the arguments are not invalid
         if (args instanceof Error) error = args;
-        else if (!command.execute(client, message, args)) error = new Error(`Usage Error`);
+        else if (!(await command.execute(client, message, args))) error = new Error(`Usage Error`);
 
         if (error) {
             message.channel.send(new MessageEmbed()
