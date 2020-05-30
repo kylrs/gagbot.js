@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.2.1
+ * @version v1.2.2
  */
 
 /**
@@ -213,7 +213,7 @@ module.exports.emoji = function emoji(input) {
 
     for (let emoji of Object.values(emojiChars)) {
         if (input.startsWith(emoji)) {
-            const rest = input.substring(emoji.length);
+            const rest = input.substring(emoji.length).trimStart();
             return [emoji, rest];
         }
     }
