@@ -75,5 +75,6 @@ module.exports = class PermClearCommand extends Command {
             message.channel.send('Permissions cleared.');
         });
 
+        return true;
     }
 };

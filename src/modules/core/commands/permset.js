@@ -78,5 +78,7 @@ module.exports = class PermSetCommand extends Command {
 
             message.channel.send('Permission set.');
         });
+
+        return true;
     }
 };
