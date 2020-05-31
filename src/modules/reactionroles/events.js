@@ -6,7 +6,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.2.0
- * @version v1.0.0
+ * @version v1.0.1
  */
 
 module.exports = {
@@ -58,18 +58,21 @@ module.exports = {
             return;
         }
 
-        if (set.exclusive) {
-            message.reactions.cache.forEach((mr) => {
-                if (mr.emoji.toString() !== react) mr.users.remove(user.id);
-            });
-        }
-
         const roleID = set.choices.get(react);
         const role = getRoleFromID(message.guild, roleID);
         if (!role) return;
 
         const member = message.guild.members.resolve(user);
         member.roles.add(role).catch(console.error);
+
+        if (set.exclusive) {
+            for await (const [id, mr] of message.reactions.cache) {
+                if (mr.emoji.toString() === react) continue;
+                const users = await mr.users.fetch();
+                if (!users.has(user.id)) continue;
+                await mr.users.remove(user.id);
+            }
+        }
     },
 
     /**
@@ -120,8 +123,8 @@ module.exports = {
                 const channel = guild.channels.cache.get(set.channel);
                 const message = channel.messages.cache.get(set.message);
 
-                message.reactions.cache.forEach((mr) => {
-                    if (!set.choices.has(mr.emoji.toString())) mr.remove();
+                message.reactions.cache.forEach(async (mr) => {
+                    if (!set.choices.has(mr.emoji.toString())) await mr.remove();
                 });
 
                 set.choices.forEach((role, react) => {
