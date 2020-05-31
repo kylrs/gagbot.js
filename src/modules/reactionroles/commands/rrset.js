@@ -40,11 +40,10 @@ module.exports = class ReactionRoleSetCommand extends Command {
      * @param react
      * @returns {string|null}
      */
-    getGaGBOTEmoji(client, react) {
-        if (!/\$[a-z_]+/.test(react)) return null;
+    async getGaGBOTEmoji(client, react) {
+        if (!/\$[a-z_]+/.test(react)) return react;
         const name = react.replace('$', '');
         const emoji = client.emojis.cache.find((emoji) => {
-            console.log(emoji.name);
             return emoji.name === name;
         });
         if (emoji) return `<:${name}:${emoji.id}>`;
@@ -156,9 +155,7 @@ module.exports = class ReactionRoleSetCommand extends Command {
 
         const setName = args.get('set');
         const role = args.get('role');
-        let react = args.get('react');
-
-        if(react.startsWith('$')) react = this.getGaGBOTEmoji(client, react);
+        let react = await this.getGaGBOTEmoji(client, args.get('react'));
         if(!react) {
             message.channel.send(new ErrorEmbed(client.config.errorMessage, `The string ${args.get('react')} is not a valid emoji.`));
             return true;
@@ -199,7 +196,11 @@ module.exports = class ReactionRoleSetCommand extends Command {
     async deleteChoice(client, message, args, set) {
         if (!args.get('react')) return false;
 
-        const react = args.get('react');
+        let react = await this.getGaGBOTEmoji(client, args.get('react'));
+        if(!react) {
+            message.channel.send(new ErrorEmbed(client.config.errorMessage, `The string ${args.get('react')} is not a valid emoji.`));
+            return true;
+        }
 
         if (!set.choices.has(react)) {
             message.channel.send(new ErrorEmbed(client.config.errorMessage, `The roleset \`${args.get('set')}\` doesn't contain the ${react} react.`));
@@ -234,9 +235,7 @@ module.exports = class ReactionRoleSetCommand extends Command {
     async updateChoice(client, message, args, set) {
         if (!args.get('react') || !args.get('role')) return false;
 
-        let react = args.get('react');
-
-        if(react.startsWith('$')) react = this.getGaGBOTEmoji(client, react);
+        let react = await this.getGaGBOTEmoji(client, args.get('react'));
         if(!react) {
             message.channel.send(new ErrorEmbed(client.config.errorMessage, `The string ${args.get('react')} is not a valid emoji.`));
             return true;
