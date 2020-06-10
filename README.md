@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.2.2
+  @version v1.2.3
 -->
 
 # gagbot.js
@@ -45,7 +45,7 @@ To get the latest stable release, check out [the releases page](https://github.c
   6. Run the bot. If all goes well, you'll see the modules being loaded, followed by a message that your bot has logged in to Discord.
   
 ```
-  npm start
+  node src/bot.js
 ```
 
   7. You can test your bot using the `gb!ping` command in your server chat, which is included in the `core` module.
