@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.3.0
+ * @version v1.3.1
  */
 
 const mongoose = require('mongoose');
@@ -34,11 +34,12 @@ const schema = new mongoose.Schema({
 /**
  * Ensure that the guild document has all the right fields
  */
-schema.static('ensureDefaults', async function(guild) {
+schema.static('ensureDefaults', async function(guild, callback) {
     const doc = await this.findOne({id: guild.id});
     if (doc === null) {
-        return this.create({id: guild.id, name: guild.name}, function(err) {
-            if (err) {
+        return this.create({id: guild.id, name: guild.name}, function(err, doc) {
+            if (callback) callback(err, doc);
+            else if (err) {
                 console.error('An error occurred joining a guild:');
                 console.error(err);
             }
@@ -70,7 +71,13 @@ schema.static('ensureDefaults', async function(guild) {
         doc.markModified('data');
     }
 
-    return doc.save();
+    doc.save(function(err) {
+        if (callback) callback(err, doc);
+        else if (err) {
+            console.error('An error occurred joining a guild:');
+            console.error(err);
+        }
+    });
 
 });
 
