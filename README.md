@@ -12,9 +12,11 @@ To get the latest stable release, check out [the releases page](https://github.c
  - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze! _(r20.1.0)_
  - **Permissions** - Fine-tune access to custom commands with simple permission nodes per role. _(r20.1.0)_
  - **Greet Module** - Send new users a welcome message when they join the server. _(r20.2.0)_
+ - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages. _(r20.2.0)_
 ### Upcoming Features
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
- - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
+ - **Custom Logging** - Keep track of server activity by choosing what events are logged, and where.
+ - **Promotion Tracks** - Allow users to earn roles, with ladders that they can climb automatically.
  
  **Got a good idea?** [Open an issue](https://github.com/kylrs/gagbot.js/issues) and start the discussion! 
  
