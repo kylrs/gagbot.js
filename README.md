@@ -48,7 +48,7 @@ To get the latest stable release, check out [the releases page](https://github.c
   node src/bot.js
 ```
 
-  7. You can test your bot using the `gb!ping` command in your server chat, which is included in the `core` module.
+  7. You can test your bot using the `ping` command in your server chat, which is included in the `core` module. By default, you can either tag the bot to summon it, or use the prefix `!`.
   
   8. [Configure GaGBot](https://github.com/kylrs/gagbot.js/wiki/Configuration)!
 
