@@ -22,10 +22,16 @@ module.exports = {
     async on_ready(client) {
         console.log(`Logged in as ${client.user.tag} to guilds:`);
         for (let guild of client.guilds.cache.values()) {
-            await client.db.guild.ensureDefaults(guild);
-            client.prefixes = client.prefixes ?? {};
-            client.prefixes[guild.id] = (await client.db.guild.findOne({id: guild.id})).prefix;
-            console.log(`  > ${guild.name}`);
+            client.db.guild.ensureDefaults(guild, function(err, doc) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                client.prefixes = client.prefixes ?? {};
+                client.prefixes[guild.id] = doc.prefix;
+                console.log(`  > ${guild.name}`);
+            });
         }
     },
 
