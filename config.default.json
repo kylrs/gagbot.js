@@ -1,4 +1,4 @@
 {
   "errorMessage": "_Womp Womp_",
-  "modules": ["greet", "reactionroles"]
+  "modules": ["logging", "greet", "reactionroles"]
 }

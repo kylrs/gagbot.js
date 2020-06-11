@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.2.2
+  @version v1.2.3
 -->
 
 # gagbot.js
@@ -12,9 +12,11 @@ To get the latest stable release, check out [the releases page](https://github.c
  - **Module Loader** - GaGBot can dynamically load modules that define new commands and events, making implementing custom features a breeze! _(r20.1.0)_
  - **Permissions** - Fine-tune access to custom commands with simple permission nodes per role. _(r20.1.0)_
  - **Greet Module** - Send new users a welcome message when they join the server. _(r20.2.0)_
+ - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages. _(r20.2.0)_
 ### Upcoming Features
  - **Admin Module** - Commands for managing the server, e.g. purging channels, muting users, and so on.
- - **Reaction Roles** - Allow users to assign themselves specific roles by reacting to messages.
+ - **Custom Logging** - Keep track of server activity by choosing what events are logged, and where.
+ - **Promotion Tracks** - Allow users to earn roles, with ladders that they can climb automatically.
  
  **Got a good idea?** [Open an issue](https://github.com/kylrs/gagbot.js/issues) and start the discussion! 
  
@@ -43,10 +45,10 @@ To get the latest stable release, check out [the releases page](https://github.c
   6. Run the bot. If all goes well, you'll see the modules being loaded, followed by a message that your bot has logged in to Discord.
   
 ```
-  npm start
+  node src/bot.js
 ```
 
-  7. You can test your bot using the `gb!ping` command in your server chat, which is included in the `core` module.
+  7. You can test your bot using the `ping` command in your server chat, which is included in the `core` module. By default, you can either tag the bot to summon it, or use the prefix `!`.
   
   8. [Configure GaGBot](https://github.com/kylrs/gagbot.js/wiki/Configuration)!
 
