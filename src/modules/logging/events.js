@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.2.0
- * @version v1.0.0
+ * @version v1.0.1
  */
 
 const Logger = require('./Logger.js');
@@ -170,8 +170,8 @@ module.exports = {
         await client.logger.log(
             member.guild,
             'member',
-            '',
             `\`${user.username}#${user.discriminator}\` left the server.`,
+            '',
             0x990000,
             { 'Timestamp': `\`${new Date().toLocaleString()}\`` },
         );
