@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.2.0
- * @version v1.0.1
+ * @version v1.0.2
  */
 
 const Logger = require('./Logger.js');
@@ -40,18 +40,20 @@ module.exports = {
     async on_messageUpdate(client, before, after) {
         const user = before.author;
         if (user.bot) return;
-        await client.logger.log(
-            before.guild,
-            'message',
-            `\`${user.username}#${user.discriminator}\` edited their message.`,
-            `**Before**\n\`\`\`\n${before.content}\n\`\`\`\n` +
-            `**After**\n\`\`\`\n${after.content}\n\`\`\``,
-            0x30649c,
-            {
-                'Channel': before.channel.toString(),
-                'Timestamp': `\`${new Date().toLocaleString()}\``,
-            },
-        );
+        if (before.content !== after.content) {
+            await client.logger.log(
+                before.guild,
+                'message',
+                `\`${user.username}#${user.discriminator}\` edited their message.`,
+                `**Before**\n\`\`\`\n${before.content}\n\`\`\`\n` +
+                `**After**\n\`\`\`\n${after.content}\n\`\`\``,
+                0x30649c,
+                {
+                    'Channel': before.channel.toString(),
+                    'Timestamp': `\`${new Date().toLocaleString()}\``,
+                },
+            );
+        }
     },
 
     /**
