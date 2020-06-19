@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.2.0
- * @version v1.0.2
+ * @version v1.0.3
  */
 
 const Logger = require('./Logger.js');
@@ -169,13 +169,46 @@ module.exports = {
      */
     async on_guildMemberRemove(client, member) {
         const user = member.user;
-        await client.logger.log(
-            member.guild,
-            'member',
-            `\`${user.username}#${user.discriminator}\` left the server.`,
-            '',
-            0x990000,
-            { 'Timestamp': `\`${new Date().toLocaleString()}\`` },
-        );
+
+        member.guild
+            .fetchAuditLogs({type: "MEMBER_KICK"})
+            .then(async (logs) => {
+                console.log(logs);
+                const now = new Date();
+                // Find a recent kick audit, targeting the user who just left
+                const kick = logs.entries.find((entry) => {
+                    return entry.target === user
+                        && now - entry.createdAt < 1e4;
+                });
+
+                if (kick) {
+                    await client.logger.log(
+                        member.guild,
+                        'member',
+                        `\`${user.username}#${user.discriminator}\` was kicked from the server.`,
+                        '',
+                        0x990044,
+                        {
+                            'By': kick.executor.toString(),
+                            'Timestamp': `\`${new Date().toLocaleString()}\``
+                        },
+                    );
+                } else {
+                    // If no kick audit was found, assume the user left of their own accord
+                    await client.logger.log(
+                        member.guild,
+                        'member',
+                        `\`${user.username}#${user.discriminator}\` left the server.`,
+                        '',
+                        0x990000,
+                        { 'Timestamp': `\`${new Date().toLocaleString()}\`` },
+                    );
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+
+
     },
 };

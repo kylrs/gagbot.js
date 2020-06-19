@@ -6,6 +6,9 @@
   "keywords": [],
   "author": "Kay <kylrs00@gmail.com>",
   "license": "ISC",
+  "scripts": {
+    "start": "node src/bot.js"
+  },
   "dependencies": {
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
