@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.1.0
- * @version v1.2.2
+ * @version v1.3.0
  */
 
 /**
@@ -255,6 +255,53 @@ module.exports.optional = function optional(arg) {
     return wrapper[key];
 };
 
+/**
+ * Take a parsing function X, and return a parsing function that succeeds only if parsing X fails, without consuming input
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {function(string):[any, string]} arg
+ * @returns {function(string):[any, string]}
+ */
+module.exports.not = function not(arg) {
+    const key = '';
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            const [match] = arg(input);
+            if (match !== null) return [null, input];
+            return [undefined, input];
+        }
+    };
+
+    return wrapper[key];
+};
+
+/**
+ * Take parsing functions X and Y, and return a parsing function that matches X, but fails if Y also matches at the current position.
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {function(string):[any, string]} arg
+ * @param {function(string):[any, string]} exception
+ * @returns {function(string):[any, string]}
+ */
+module.exports.except = function except(arg, exception) {
+    const key = arg.name;
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            const [exceptMatch] = exception(input);
+            if (exceptMatch !== null) return [null, input];
+            return arg(input);
+        }
+    };
+
+    return wrapper[key];
+};
+
 
 /**
  * Take a list of parsing functions, and return a parsing function which will return the result of the first successful match of these functions
@@ -270,7 +317,7 @@ module.exports.choice = function choice(...args) {
     // Use an object property to give the function a dynamic name
     const wrapper = {
         [key]: function(input) {
-            for (let arg of Object.values(args)) {
+            for (let arg of args) {
                 const [match, rest] = arg(input);
                 if (match !== null) return [match, rest];
             }
@@ -340,3 +387,32 @@ module.exports.some = function some(arg) {
 
     return wrapper[key];
 };
+
+/**
+ * Return a parsing function that matches the input function one or more times
+ *
+ * @author Kay <kylrs00@gmail.com>
+ * @since r20.2.0
+ *
+ * @param {function(string):[any, string]} args
+ * @returns {function(string):[any, string]}
+ */
+module.exports.sequence = function sequence(...args) {
+    const key = '(' + args.map((x) => x.name).join(' ') + ')';
+    // Use an object property to give the function a dynamic name
+    const wrapper = {
+        [key]: function(input) {
+            const matches = [];
+            let match, rest = input;
+            for (let arg of args) {
+                [match, rest] = arg(rest);
+                if (match === null) return [null, input];
+
+                matches.push(match);
+            }
+            return [matches.filter((x) => x !== undefined), rest];
+        }
+    };
+
+    return wrapper[key];
+}
