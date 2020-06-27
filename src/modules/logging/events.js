@@ -173,7 +173,6 @@ module.exports = {
         member.guild
             .fetchAuditLogs({type: "MEMBER_KICK"})
             .then(async (logs) => {
-                console.log(logs);
                 const now = new Date();
                 // Find a recent kick audit, targeting the user who just left
                 const kick = logs.entries.find((entry) => {
