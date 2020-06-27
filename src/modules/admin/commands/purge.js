@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.0.0
- * @version v1.2.0
+ * @version v1.0.1
  */
 
 const Command = require('../../../command/Command.js');
@@ -16,10 +16,10 @@ const { MessageEmbed } = require('discord.js');
 module.exports = class PurgeCommand extends Command {
 
     /**
-     * PingCommand constructor
+     * PurgeCommand constructor
      *
      * @author Kay <kylrs00@gmail.com>
-     * @since r20.1.0
+     * @since r20.2.0
      */
     constructor() {
         super("purge", "Bulk delete recent messages", "gagbot:admin:purge", false,
@@ -38,7 +38,7 @@ module.exports = class PurgeCommand extends Command {
      * Bulk delete recent messages, either all messages since a certain message, or a certain number of messages
      *
      * @author Kay <kylrs00@gmail.com>
-     * @since r20.1.0
+     * @since r20.2.0
      *
      * @param {Client} client
      * @param {Message} message
@@ -99,6 +99,14 @@ module.exports = class PurgeCommand extends Command {
         return true;
     }
 
+    /**
+     * Send a message to confirm deletion, and then delete all given messages
+     *
+     * @param {TextChannel} sourceChannel
+     * @param {TextChannel} targetChannel
+     * @param {Collection<Snowflake, Message>} messages
+     * @returns {Promise<void>}
+     */
     async bulkDelete(sourceChannel, targetChannel, messages) {
         const embed = new GagEmbed('Purging Messages...', '', {
             'Messages': messages.size,
