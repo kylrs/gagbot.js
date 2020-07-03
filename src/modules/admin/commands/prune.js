@@ -116,7 +116,7 @@ module.exports = class PruneCommand extends Command {
                                 message.react('🚫')
                                     .then(() => message.react('✅'))
                                     .then(() => {
-                                        message.awaitReactions(filter, {max: 1, time: 60000, errors: ['time'] })
+                                        message.awaitReactions(filter, {max: 1, time: 300000, errors: ['time'] })
                                             .then((collected) => {
                                                 const reaction = collected.first();
 
