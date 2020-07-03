@@ -1,6 +1,6 @@
 <!--
   @author  Kay <kylrs00@gmail.com>
-  @version v1.3.0
+  @version v1.3.1
 -->
 
 # gagbot.js
@@ -41,7 +41,7 @@ To get the latest stable release, check out [the releases page](https://github.c
 ```
     
   5. Create an environment variable named `DISCORD_TOKEN`, and set it to your bot's token.
-    - If you're using the `admin` module, you should also supply the environment variables `PASTEBIN_DEV_KEY`, `PASTEBIN_USER_NAME` and `PASTEBIN_USER_PASSWORD`, containing your Pastebin API developer key, username and password respectively. This is especially necessary for large servers where the `prune` command may select inactive members in excess of the number the bot is able to list in a MessageEmbed.
+      - If you're using the `admin` module, you should also supply the environment variables `PASTEBIN_DEV_KEY`, `PASTEBIN_USER_NAME` and `PASTEBIN_USER_PASSWORD`, containing your Pastebin API developer key, username and password respectively. This is especially necessary for large servers where the `prune` command may select inactive members in excess of the number the bot is able to list in a MessageEmbed.
   6. Add your MongoDB connection string to an environment variable named `MONGO_DB_URI`.
   7. Run the bot. If all goes well, you'll see the modules being loaded, followed by a message that your bot has logged in to Discord.
   
