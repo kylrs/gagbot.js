@@ -77,7 +77,8 @@ module.exports = class PruneCommand extends Command {
                                 const lastSeen = lastActivity > 0 ? new Date(lastActivity).toUTCString() : 'Never';
                                 const userTag = `${member.user.username}#${member.user.discriminator}`;
                                 kickListFull += `[${lastSeen}] ${userTag}\n`;
-                                if (kickList.length < 2000) kickList += `\`${userTag}\` last seen \`${lastSeen}\`\n`;
+                                const line = `\`${userTag}\` last seen \`${lastSeen}\`\n`;
+                                if ((kickList.length + line.length) <= 1500) kickList += line;
                                 else unlisted++;
                             });
 
