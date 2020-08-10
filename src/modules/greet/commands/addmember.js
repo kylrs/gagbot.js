@@ -4,7 +4,7 @@
  * @author Kay <kylrs00@gmail.com>
  * @license ISC - For more information, see the LICENSE.md file packaged with this file.
  * @since r20.2.0
- * @version v1.0.0
+ * @version v1.0.1
  */
 
 const Command = require('../../../command/Command.js');
@@ -68,7 +68,7 @@ module.exports = class AddMemberCommand extends Command {
         const role = guild.roles.cache.get(rid);
 
         member.roles.add(role).then(function() {
-            message.channel.send(`Added role ${role} to ${member}!`);
+            message.channel.send(`Added role **@${role.name}** to ${member}!`);
         }).catch(function(err) {
             message.channel.send(`***${client.config.errorMessage}***\n Something went wrong...`);
             console.error(`Error while adding member role:\n${err}`);
