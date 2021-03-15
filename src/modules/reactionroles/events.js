@@ -132,13 +132,13 @@ module.exports = {
 
                     if (react.startsWith('<')) {
                         const rid = react.substring(react.lastIndexOf(':') + 1, react.length - 1);
-                        react = guild.emojis.cache.get(rid);
+                        react = client.emojis.cache.get(rid);
                     }
 
                     try {
                         message.react(react)
                     } catch (err) {
-                        console.error(`Error adding react '${reactString}.'`)
+                        console.error(`Error adding react '${reactString}'.`)
                         error = err
                         break;
                     }
