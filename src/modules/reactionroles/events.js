@@ -127,12 +127,22 @@ module.exports = {
                     if (!set.choices.has(mr.emoji.toString())) await mr.remove();
                 });
 
-                set.choices.forEach((role, react) => {
+                for (let [react, role] of set.choices) {
+                    const reactString = react
+
                     if (react.startsWith('<')) {
-                        react = react.substring(react.lastIndexOf(':') + 1, react.length - 1);
+                        const rid = react.substring(react.lastIndexOf(':') + 1, react.length - 1);
+                        react = guild.emojis.cache.get(rid);
                     }
-                    message.react(react);
-                });
+
+                    try {
+                        message.react(react)
+                    } catch (err) {
+                        console.error(`Error adding react '${reactString}.'`)
+                        error = err
+                        break;
+                    }
+                }
             }
         }
 
