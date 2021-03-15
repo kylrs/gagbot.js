@@ -49,7 +49,7 @@ module.exports = class ReactionRoleUpdateCommand extends Command {
 
         client.emit('roleSetUpdate', set.id, (err) => {
             if (err) {
-                message.channel.send(new ErrorEmbed(client.config.errorMessage, `Something went wrong updating the reactions.`));
+                message.channel.send(new ErrorEmbed(client.config.errorMessage, err.message));
                 console.error(err);
                 return;
             }

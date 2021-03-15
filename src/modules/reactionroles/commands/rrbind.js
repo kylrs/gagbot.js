@@ -80,13 +80,19 @@ module.exports = class ReactionRoleBindCommand extends Command {
                 return;
             }
 
-            message.channel.send(new GagEmbed(`\`${set.alias}\``, `Bound to message.`)
-                .addFields(
-                    { name: 'Message', value: messageID, inline: true },
-                    { name: 'Channel', value: channel.toString(), inline: true }
-                ));
-
-            client.emit('roleSetUpdate', set._id);
+            client.emit('roleSetUpdate', set._id, (err) => {
+                if (err) {
+                    message.channel.send(new ErrorEmbed(client.config.errorMessage, err.message));
+                    console.error(err);
+                    return;
+                }
+    
+                message.channel.send(new GagEmbed(`\`${set.alias}\``, `Bound to message.`)
+                    .addFields(
+                        { name: 'Message', value: messageID, inline: true },
+                        { name: 'Channel', value: channel.toString(), inline: true }
+                    ));
+            });
         });
 
         return true;
