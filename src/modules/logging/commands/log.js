@@ -24,7 +24,7 @@ module.exports = class LogChannelCommand extends Command {
         super("log", "Set which events to log in which channel.", "gagbot:logging:channel", false, {
             'cmd': choice(i('set'), i('list'), i('check'), i('delete')),
             'channel': optional(channel),
-            'types': optional(some(choice(i('message'), i('voice'), i('member')))),
+            'types': optional(some(choice(i('message'), i('voice'), i('member'), i('error')))),
         });
     }
 
