@@ -76,4 +76,22 @@ module.exports = {
         console.log(`Joining a new guild, ${guild.name}`);
         await client.db.guild.ensureDefaults(guild);
     },
+
+    /**
+     * Log client errors
+     * 
+     * @author Kay <kylrs00@gmail.com>
+     * @since r20.2.0
+     * 
+     * @param client
+     * @param error
+     */
+    async on_error(client, error) {
+        console.error(error)
+        const guild = await client.guilds.cache.get(process.env.ROOT_GUILD_ID)
+        if (guild === null) return
+        let title = 'An unhandled client error has occurred.'
+        if (error.code) title += ` \`${error.code}\``
+        client.logger.log(guild, 'error', title, error.message, 0xff0000)
+    }
 };
