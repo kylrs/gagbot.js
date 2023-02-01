@@ -13,7 +13,7 @@
     "bufferutil": "^4.0.1",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.15",
+    "mongoose": "^5.13.15",
     "pastebin-js": "^1.0.5",
     "utf-8-validate": "^5.0.2"
   },
